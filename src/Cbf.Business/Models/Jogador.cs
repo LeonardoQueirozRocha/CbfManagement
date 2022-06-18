@@ -10,6 +10,6 @@
 
         //EF Relation
         public Time Time { get; set; }
-        public IEnumerable<Transferencia> Transferencias{ get; set; }
+        public IEnumerable<Transferencia> Transferencias { get; set; }
     }
 }
