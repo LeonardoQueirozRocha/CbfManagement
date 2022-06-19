@@ -46,7 +46,6 @@ namespace Cbf.Data.Context
                     entry.Property("Data").CurrentValue = DateTime.Now;
                 }
 
-
                 if (entry.State == EntityState.Modified)
                 {
                     entry.Property("DataCadastro").IsModified = false;
