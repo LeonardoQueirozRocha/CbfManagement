@@ -24,6 +24,7 @@ namespace Cbf.Api.Configuration
             services.Configure<ApiBehaviorOptions>(options =>
             {
                 options.SuppressModelStateInvalidFilter = true;
+
             });
 
             services.AddCors(options =>
@@ -32,6 +33,7 @@ namespace Cbf.Api.Configuration
                     builder => builder.AllowAnyOrigin()
                                       .AllowAnyMethod()
                                       .AllowAnyHeader());
+
 
                 options.AddPolicy("Production",
                     builder => builder.WithMethods("GET")
@@ -59,6 +61,10 @@ namespace Cbf.Api.Configuration
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
+
+            app.UseAuthorization();
 
             app.UseStaticFiles();
 

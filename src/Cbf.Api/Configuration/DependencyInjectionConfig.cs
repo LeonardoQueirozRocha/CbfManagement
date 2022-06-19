@@ -4,7 +4,6 @@ using Cbf.Data.Context;
 using Cbf.Data.Repository;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using static Cbf.Api.Configuration.SwaggerConfig;
 
 namespace Cbf.Api.Configuration
 {

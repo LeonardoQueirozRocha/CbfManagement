@@ -10,7 +10,10 @@ namespace Cbf.Api.Configuration
     {
         public static IServiceCollection AddSwaggerConfig(this IServiceCollection services)
         {
-            services.AddSwaggerGen();
+            services.AddSwaggerGen(c =>
+            {
+                c.OperationFilter<SwaggerDefaultValues>();
+            });
 
             return services;
         }
@@ -18,108 +21,84 @@ namespace Cbf.Api.Configuration
         public static IApplicationBuilder UseSwaggerConfig(this IApplicationBuilder app, IApiVersionDescriptionProvider provider)
         {
             app.UseSwagger();
-            app.UseSwaggerUI(options =>
-            {
-                foreach (var description in provider.ApiVersionDescriptions)
+            app.UseSwaggerUI(
+                options =>
                 {
-                    options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
-                }
-            });
+                    foreach (var description in provider.ApiVersionDescriptions)
+                    {
+                        options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
+                    }
+                });
 
             return app;
         }
+    }
 
-        public class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOptions>
+    public class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOptions>
+    {
+        readonly IApiVersionDescriptionProvider provider;
+
+        public ConfigureSwaggerOptions(IApiVersionDescriptionProvider provider) => this.provider = provider;
+
+        public void Configure(SwaggerGenOptions options)
         {
-            readonly IApiVersionDescriptionProvider privider;
-
-            public ConfigureSwaggerOptions(IApiVersionDescriptionProvider privider) => this.privider = privider;
-
-            public void Configure(SwaggerGenOptions options)
+            foreach (var description in provider.ApiVersionDescriptions)
             {
-                foreach (var description in privider.ApiVersionDescriptions)
-                {
-                    options.SwaggerDoc(description.GroupName, CreateInfoForApiVersion(description));
-                }
+                options.SwaggerDoc(description.GroupName, CreateInfoForApiVersion(description));
             }
         }
 
         static OpenApiInfo CreateInfoForApiVersion(ApiVersionDescription description)
         {
-            var info = new OpenApiInfo
+            var info = new OpenApiInfo()
             {
                 Title = "API - CBF Management",
                 Version = description.ApiVersion.ToString(),
-                Description = "Esta API faz parte da CBF.",
-                Contact = new OpenApiContact() { Name = "Leonardo Queiroz Rocha", Email = "leonardo.queiroz.rocha@outlook.com" },
+                Description = "Esta API é de um trabalho do curso de Pós-Graduação da PUC Minas",
+                Contact = new OpenApiContact() { Name = "Leonardo Queiroz Rocha", Email = "leonardo.queiroz.rocha@oulook.com" },
                 License = new OpenApiLicense() { Name = "MIT", Url = new Uri("https://opensource.org/licenses/MIT") }
             };
 
-            if (description.IsDeprecated)
-            {
-                info.Description += " Esta versão está obsoleta!";
-            }
+            if (description.IsDeprecated) info.Description += " Esta versão está obsoleta!";
 
             return info;
         }
-
-        public class SwaggerDesfaultValues : IOperationFilter
-        {
-            public void Apply(OpenApiOperation operation, OperationFilterContext context)
-            {
-                var apiDescription = context.ApiDescription;
-
-                operation.Deprecated |= apiDescription.IsDeprecated();
-
-                foreach (var responseType in context.ApiDescription.SupportedResponseTypes)
-                {
-                    var responseKey = responseType.IsDefaultResponse ? "default" : responseType.StatusCode.ToString();
-                    var response = operation.Responses[responseKey];
-
-                    foreach (var contentType in response.Content.Keys) 
-                        if (responseType.ApiResponseFormats.All(x => x.MediaType != contentType))
-                            response.Content.Remove(contentType);
-                }
-
-                if (operation.Parameters == null) return;
-
-                foreach (var parameter in operation.Parameters)
-                {
-                    var description = apiDescription.ParameterDescriptions.First(p => p.Name == parameter.Name);
-
-                    parameter.Description ??= description.ModelMetadata.Description;
-
-                    if (parameter.Schema.Default == null && description.DefaultValue != null)
-                    {
-                        var json = JsonSerializer.Serialize(description.DefaultValue, description.ModelMetadata.ModelType);
-                        parameter.Schema.Default = OpenApiAnyFactory.CreateFromJson(json);
-                    }
-
-                    parameter.Required |= description.IsRequired;
-                }
-            }
-        }
     }
 
-    public class SwaggerAuthorizedMiddleware
+    public class SwaggerDefaultValues : IOperationFilter
     {
-        private readonly RequestDelegate _next;
-
-        public SwaggerAuthorizedMiddleware(RequestDelegate next)
+        public void Apply(OpenApiOperation operation, OperationFilterContext context)
         {
-            _next = next;
-        }
+            var apiDescription = context.ApiDescription;
 
-        public async Task Invoke(HttpContext context)
-        {
-            if (context.Request.Path.StartsWithSegments("/swagger")
-                && !context.User.Identity.IsAuthenticated)
+            operation.Deprecated |= apiDescription.IsDeprecated();
+
+            foreach (var responseType in context.ApiDescription.SupportedResponseTypes)
             {
-                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-                return;
+                var responseKey = responseType.IsDefaultResponse ? "default" : responseType.StatusCode.ToString();
+                var response = operation.Responses[responseKey];
+
+                foreach (var contentType in response.Content.Keys)
+                    if (responseType.ApiResponseFormats.All(x => x.MediaType != contentType))
+                        response.Content.Remove(contentType);
             }
 
-            await _next.Invoke(context);
+            if (operation.Parameters == null) return;
+
+            foreach (var parameter in operation.Parameters)
+            {
+                var description = apiDescription.ParameterDescriptions.First(p => p.Name == parameter.Name);
+
+                parameter.Description ??= description.ModelMetadata.Description;
+
+                if (parameter.Schema.Default == null && description.DefaultValue != null)
+                {
+                    var json = JsonSerializer.Serialize(description.DefaultValue, description.ModelMetadata.ModelType);
+                    parameter.Schema.Default = OpenApiAnyFactory.CreateFromJson(json);
+                }
+
+                parameter.Required |= description.IsRequired;
+            }
         }
     }
 }

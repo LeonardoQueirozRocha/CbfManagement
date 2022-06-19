@@ -26,12 +26,6 @@ builder.Services.AddSwaggerConfig();
 
 builder.Services.ResolveDepencies();
 
-builder.Services.AddControllers();
-
-builder.Services.AddEndpointsApiExplorer();
-
-builder.Services.AddSwaggerGen();
-
 var app = builder.Build();
 var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
 
