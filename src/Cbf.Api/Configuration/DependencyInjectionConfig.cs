@@ -19,7 +19,7 @@ namespace Cbf.Api.Configuration
 
             services.AddScoped<INotificador, Notificador>();
             services.AddScoped<ITimeService, TimeService>();
-            services.AddScoped<IJogadorRepository, JogadorRepository>();
+            services.AddScoped<IJogadorService, JogadorService>();
 
             services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
 

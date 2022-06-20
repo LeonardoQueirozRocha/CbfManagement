@@ -22,8 +22,5 @@ namespace Cbf.Api.ViewModels
         public string Pais { get; set; }
 
         public DateTime DataCadastro { get; set; }
-
-        public TimeViewModel Time { get; set; }
-        public IEnumerable<TransferenciaViewModel> Transferencias { get; set; }
     }
 }

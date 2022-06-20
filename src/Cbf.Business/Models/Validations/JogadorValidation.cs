@@ -12,7 +12,7 @@ namespace Cbf.Business.Models.Validations
 
             RuleFor(t => t.DataNascimento)
                 .NotEmpty().WithMessage("O campo {PropertyName} precisa ser fornecido")
-                .LessThan(t => DateTime.Now).WithErrorCode("O campo {PropertyName} deve estar no passado");
+                .LessThan(t => DateTime.Now).WithMessage("O campo {PropertyName} deve estar no passado");
                 
             RuleFor(t => t.Pais)
                 .NotEmpty().WithMessage("O campo {PropertyName} precisa ser fornecido")

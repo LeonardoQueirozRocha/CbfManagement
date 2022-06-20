@@ -10,7 +10,7 @@ namespace Cbf.Business.Services
         private readonly ITransferenciaRepository _transferenciaRepository;
         private readonly IJogadorRepository _jogadorRepository;
 
-        public TimeService(ITimeRepository timeRepository, 
+        public TimeService(ITimeRepository timeRepository,
                            ITransferenciaRepository transferenciaRepository,
                            IJogadorRepository jogadorRepository,
                            INotificador notificador) : base(notificador)
@@ -24,7 +24,7 @@ namespace Cbf.Business.Services
         {
             if (!ExecutarValidacao(new TimeValidation(), time)) return;
 
-            if(_timeRepository.Buscar(f => f.Nome == time.Nome).Result.Any())
+            if (_timeRepository.Buscar(f => f.Nome == time.Nome).Result.Any())
             {
                 Notificar("Já existe um time com este nome informado.");
                 return;
@@ -37,7 +37,8 @@ namespace Cbf.Business.Services
         {
             if (_timeRepository.Buscar(t => t.Nome == time.Nome).Result.Any())
             {
-                throw new Exception("Já existe um time com esse nome cadastrado.");
+                Notificar("Já existe um time com este nome cadastrado.");
+                return;
             }
 
             await _timeRepository.Atualizar(time);

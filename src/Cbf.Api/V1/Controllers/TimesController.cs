@@ -67,6 +67,18 @@ namespace Cbf.Api.V1.Controllers
             return CustomResponse(timeViewModel);
         }
 
+        [HttpDelete("{id:guid}")]
+        public async Task<ActionResult<TimeViewModel>> Excluir(Guid id)
+        {
+            var timeViewModel = await ObterTimeJogadores(id);
+
+            if (timeViewModel == null) return NotFound();
+
+            await _timeService.Remover(id);
+
+            return CustomResponse(timeViewModel);
+        }
+
         private async Task<TimeViewModel> ObterTimeJogadores(Guid id)
         {
             return _mapper.Map<TimeViewModel>(await _timeRepository.ObterTimeJogadores(id));
