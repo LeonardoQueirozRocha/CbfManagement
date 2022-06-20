@@ -1,9 +1,10 @@
 ﻿using Cbf.Business.Interfaces;
 using Cbf.Business.Models;
+using Cbf.Business.Models.Validations;
 
 namespace Cbf.Business.Services
 {
-    public class TimeService : ITimeService
+    public class TimeService : BaseService, ITimeService
     {
         private readonly ITimeRepository _timeRepository;
         private readonly ITransferenciaRepository _transferenciaRepository;
@@ -11,7 +12,8 @@ namespace Cbf.Business.Services
 
         public TimeService(ITimeRepository timeRepository, 
                            ITransferenciaRepository transferenciaRepository,
-                           IJogadorRepository jogadorRepository)
+                           IJogadorRepository jogadorRepository,
+                           INotificador notificador) : base(notificador)
         {
             _timeRepository = timeRepository;
             _transferenciaRepository = transferenciaRepository;
@@ -20,9 +22,12 @@ namespace Cbf.Business.Services
 
         public async Task Adicionar(Time time)
         {
-            if (_timeRepository.Buscar(t => t.Nome == time.Nome).Result.Any())
+            if (!ExecutarValidacao(new TimeValidation(), time)) return;
+
+            if(_timeRepository.Buscar(f => f.Nome == time.Nome).Result.Any())
             {
-                throw new Exception("Já existe um time com esse nome cadastrado.");
+                Notificar("Já existe um time com este nome informado.");
+                return;
             }
 
             await _timeRepository.Adicionar(time);

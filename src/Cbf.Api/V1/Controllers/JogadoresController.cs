@@ -1,4 +1,5 @@
 ﻿using Cbf.Api.Controllers;
+using Cbf.Business.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cbf.Api.V1.Controllers
@@ -7,10 +8,9 @@ namespace Cbf.Api.V1.Controllers
     [Route("api/v{version:apiVersion}/jogadores")]
     public class JogadoresController : MainController
     {
+        public JogadoresController(INotificador notificador) : base(notificador) { }
+
         [HttpGet]
-        public IActionResult ObterTodos()
-        {
-            return Ok();
-        }
+        public IActionResult ObterTodos() => Ok();
     }
 }

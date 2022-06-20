@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Cbf.Data.Migrations
 {
-    public partial class initial : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -52,7 +52,7 @@ namespace Cbf.Data.Migrations
                     TimeOrigemId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     TimeDestinoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     JogadorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Data = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DataCadastro = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Valor = table.Column<decimal>(type: "decimal(10,5)", nullable: false)
                 },
                 constraints: table =>

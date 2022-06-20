@@ -5,7 +5,7 @@
         public Guid TimeOrigemId { get; set; }
         public Guid TimeDestinoId { get; set; }
         public Guid JogadorId { get; set; }
-        public DateTime Data { get; set; }
+        public DateTime DataCadastro { get; set; }
         public decimal Valor { get; set; }
 
         // EF Relation

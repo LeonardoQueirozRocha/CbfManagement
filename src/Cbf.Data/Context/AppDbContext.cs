@@ -35,22 +35,13 @@ namespace Cbf.Data.Context
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             var entries = ChangeTracker.Entries().Where(entry =>
-                entry.Entity.GetType().GetProperty("DataCadastro") != null &&
-                entry.Entity.GetType().GetProperty("Data") != null);
+                entry.Entity.GetType().GetProperty("DataCadastro") != null);
 
             foreach (var entry in entries)
             {
-                if (entry.State == EntityState.Added)
-                {
-                    entry.Property("DataCadastro").CurrentValue = DateTime.Now;
-                    entry.Property("Data").CurrentValue = DateTime.Now;
-                }
+                if (entry.State == EntityState.Added) entry.Property("DataCadastro").CurrentValue = DateTime.Now;
 
-                if (entry.State == EntityState.Modified)
-                {
-                    entry.Property("DataCadastro").IsModified = false;
-                    entry.Property("Data").IsModified = false;
-                }
+                if (entry.State == EntityState.Modified) entry.Property("DataCadastro").IsModified = false;
             }
 
             return base.SaveChangesAsync(cancellationToken);

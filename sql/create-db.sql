@@ -37,7 +37,7 @@ CREATE TABLE [Transferencias] (
     [TimeOrigemId] uniqueidentifier NOT NULL,
     [TimeDestinoId] uniqueidentifier NOT NULL,
     [JogadorId] uniqueidentifier NOT NULL,
-    [Data] datetime2 NOT NULL,
+    [DataCadastro] datetime2 NOT NULL,
     [Valor] decimal(10,5) NOT NULL,
     CONSTRAINT [PK_Transferencias] PRIMARY KEY ([Id]),
     CONSTRAINT [FK_Transferencias_Jogadores_JogadorId] FOREIGN KEY ([JogadorId]) REFERENCES [Jogadores] ([Id]),
@@ -55,7 +55,7 @@ CREATE INDEX [IX_Transferencias_TimeOrigemId] ON [Transferencias] ([TimeOrigemId
 GO
 
 INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-VALUES (N'20220618192647_initial', N'6.0.6');
+VALUES (N'20220619224807_Initial', N'6.0.6');
 GO
 
 COMMIT;

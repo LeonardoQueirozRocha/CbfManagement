@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Cbf.Api.Controllers;
+using Cbf.Api.ViewModels;
 using Cbf.Business.Interfaces;
+using Cbf.Business.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cbf.Api.V1.Controllers
@@ -15,7 +17,8 @@ namespace Cbf.Api.V1.Controllers
 
         public TimesController(ITimeService timeService,
                                ITimeRepository timeRepository,
-                               IMapper mapper)
+                               IMapper mapper,
+                               INotificador notificador) : base(notificador)
         {
             _timeService = timeService;
             _timeRepository = timeRepository;
@@ -23,9 +26,50 @@ namespace Cbf.Api.V1.Controllers
         }
 
         [HttpGet]
-        public IActionResult ObterTodos()
+        public async Task<IEnumerable<TimeViewModel>> ObterTodos()
         {
-            return Ok();
+            return _mapper.Map<IEnumerable<TimeViewModel>>(await _timeRepository.ObterTodos());
+        }
+
+        [HttpGet("{id:guid}")]
+        public async Task<ActionResult<TimeViewModel>> ObterPorId(Guid id)
+        {
+            var time = await ObterTimeJogadores(id);
+
+            if (time == null) return NotFound();
+
+            return time;
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<TimeViewModel>> Adicionar(TimeViewModel timeViewModel)
+        {
+            if (!ModelState.IsValid) return CustomResponse(ModelState);
+
+            await _timeService.Adicionar(_mapper.Map<Time>(timeViewModel));
+
+            return CustomResponse(timeViewModel);
+        }
+
+        [HttpPut("{id:guid}")]
+        public async Task<ActionResult<TimeViewModel>> Atualizar(Guid id, TimeViewModel timeViewModel)
+        {
+            if (id != timeViewModel.Id)
+            {
+                NotificarErro("O id informado não é o mesmo que foi passado na query");
+                return CustomResponse(timeViewModel);
+            }
+
+            if (!ModelState.IsValid) return CustomResponse(ModelState);
+
+            await _timeRepository.Atualizar(_mapper.Map<Time>(timeViewModel));
+
+            return CustomResponse(timeViewModel);
+        }
+
+        private async Task<TimeViewModel> ObterTimeJogadores(Guid id)
+        {
+            return _mapper.Map<TimeViewModel>(await _timeRepository.ObterTimeJogadores(id));
         }
     }
 }
