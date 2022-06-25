@@ -50,21 +50,24 @@ namespace Cbf.Business.Services
 
             if (!origem.Any())
             {
-                throw new Exception("Time de origem não encontrado.");
+                Notificar("Time de origem não encontrado.");
+                return;
             }
 
             var destino = await _timeRepository.Buscar(t => t.Nome == timeDestino);
 
             if (!destino.Any())
             {
-                throw new Exception("Time de destino não encontrado.");
+                Notificar("Time de destino não encontrado.");
+                return;
             }
 
             var jogadorBase = await _jogadorRepository.Buscar(j => j.Nome == jogador);
 
             if (!jogadorBase.Any())
             {
-                throw new Exception("Jogador não encontrado na base.");
+                Notificar("Jogador não encontrado.");
+                return;
             }
 
             var transferencia = new Transferencia
