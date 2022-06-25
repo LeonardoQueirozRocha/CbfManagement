@@ -11,8 +11,8 @@ namespace Cbf.Data.Mappings
             builder.HasKey(t => t.Id);
 
             builder.Property(t => t.Valor)
-                .IsRequired()
-                .HasColumnType("decimal(10,5)");
+                   .IsRequired()
+                   .HasColumnType("decimal(10,5)");
 
             builder.ToTable("Transferencias");
         }

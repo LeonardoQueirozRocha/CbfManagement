@@ -21,16 +21,10 @@ namespace Cbf.Data.Repository
         {
             return await DbSet.AsNoTracking().Where(predicate).ToListAsync();
         }
+            
+        public virtual async Task<TEntity> ObterPorId(Guid id) => await DbSet.FindAsync(id);
 
-        public virtual async Task<TEntity> ObterPorId(Guid id)
-        {
-            return await DbSet.FindAsync(id);
-        }
-
-        public virtual async Task<List<TEntity>> ObterTodos()
-        {
-            return await DbSet.ToListAsync();
-        }
+        public virtual async Task<List<TEntity>> ObterTodos() => await DbSet.ToListAsync();
 
         public virtual async Task Adicionar(TEntity entity)
         {
@@ -50,14 +44,8 @@ namespace Cbf.Data.Repository
             await SaveChanges();
         }
 
-        public async Task<int> SaveChanges()
-        {
-            return await Db.SaveChangesAsync();
-        }
+        public async Task<int> SaveChanges() => await Db.SaveChangesAsync();
 
-        public void Dispose()
-        {
-            Db?.Dispose();
-        }
+        public void Dispose() => Db?.Dispose();
     }
 }

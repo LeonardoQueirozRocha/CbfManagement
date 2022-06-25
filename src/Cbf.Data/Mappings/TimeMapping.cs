@@ -11,20 +11,20 @@ namespace Cbf.Data.Mappings
             builder.HasKey(t => t.Id);
 
             builder.Property(t => t.Nome)
-                .IsRequired()
-                .HasColumnType("varchar(200)");
+                   .IsRequired()
+                   .HasColumnType("varchar(200)");
 
             builder.Property(t => t.Localidade)
-                .IsRequired()
-                .HasColumnType("varchar(255)");
+                   .IsRequired()
+                   .HasColumnType("varchar(255)");
 
             builder.HasMany(t => t.Jogadores)
-                .WithOne(t => t.Time)
-                .HasForeignKey(t => t.TimeId);
+                   .WithOne(t => t.Time)
+                   .HasForeignKey(t => t.TimeId);
 
             builder.HasMany(t => t.Transferencias)
-                .WithOne(t => t.Time)
-                .HasForeignKey(t => t.TimeOrigemId);
+                   .WithOne(t => t.Time)
+                   .HasForeignKey(t => t.TimeOrigemId);
 
             builder.ToTable("Times");
         }
