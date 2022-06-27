@@ -13,7 +13,15 @@ namespace Cbf.Data.Repository
         {
             return await Db.Times.AsNoTracking()
                                  .Include(t => t.Jogadores)
-                                 .FirstOrDefaultAsync(t => t.Id == id); ;
+                                 .FirstOrDefaultAsync(t => t.Id == id);
+
+        }
+
+        public async Task<Time> ObterTimeTransferencias(Guid id)
+        {
+            return await Db.Times.AsNoTracking()
+                           .Include(t => t.Transferencias)
+                           .FirstOrDefaultAsync(t => t.Id == id);
         }
     }
 }

@@ -7,5 +7,6 @@ namespace Cbf.Business.Interfaces
         Task<IEnumerable<Jogador>> ObterJogadoresPorTime(Guid timeId);
         Task<IEnumerable<Jogador>> ObterJogadoresTimes();
         Task<Jogador> ObterJogadorTime(Guid id);
+        Task<Jogador> ObterJogadorTransferencias(Guid id);
     }
 }

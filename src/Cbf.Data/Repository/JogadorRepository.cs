@@ -28,5 +28,12 @@ namespace Cbf.Data.Repository
         {
             return await Buscar(j => j.TimeId == timeId);
         }
+
+        public async Task<Jogador> ObterJogadorTransferencias(Guid id)
+        {
+            return await Db.Jogadores.AsNoTracking()
+                                     .Include(j => j.Transferencias)
+                                     .FirstOrDefaultAsync(j => j.Id == id);
+        }
     }
 }

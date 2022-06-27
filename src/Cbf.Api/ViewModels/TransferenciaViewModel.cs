@@ -16,7 +16,7 @@ namespace Cbf.Api.ViewModels
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
         public Guid JogadorId { get; set; }
 
-        [Required(ErrorMessage = "O campo {0} é obrigatório")]
+        [ScaffoldColumn(false)]
         public DateTime DataCadastro { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório")]

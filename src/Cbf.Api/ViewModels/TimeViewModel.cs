@@ -15,8 +15,13 @@ namespace Cbf.Api.ViewModels
         [StringLength(255, ErrorMessage = "O campo {0} precisa ter entre {2} e {1} caracteres", MinimumLength = 2)]
         public string Localidade { get; set; }
 
-        [Required(ErrorMessage = "O campo {0} é obrigatório")]
+        [ScaffoldColumn(false)]
         public DateTime DataCadastro { get; set; }
+
+        [Required(ErrorMessage = "O campo {0} é obrigatório")]
+        public DateTime Fundacao { get; set; }
+
+        public string Estadio { get; set; }
 
         public IEnumerable<JogadorViewModel> Jogadores { get; set; }
         public IEnumerable<TransferenciaViewModel> Transferencias { get; set; }
