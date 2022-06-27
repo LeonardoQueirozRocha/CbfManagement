@@ -42,6 +42,13 @@ namespace Cbf.Data.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(200)");
 
+                    b.Property<string>("Posicao")
+                        .IsRequired()
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<decimal>("Salario")
+                        .HasColumnType("decimal(10,2)");
+
                     b.Property<Guid>("TimeId")
                         .HasColumnType("uniqueidentifier");
 
@@ -61,11 +68,21 @@ namespace Cbf.Data.Migrations
                     b.Property<DateTime>("DataCadastro")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Estadio")
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<DateTime>("Fundacao")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Localidade")
                         .IsRequired()
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<string>("Tecnico")
                         .IsRequired()
                         .HasColumnType("varchar(200)");
 
@@ -93,7 +110,7 @@ namespace Cbf.Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Valor")
-                        .HasColumnType("decimal(10,5)");
+                        .HasColumnType("decimal(10,2)");
 
                     b.HasKey("Id");
 

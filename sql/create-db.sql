@@ -15,6 +15,9 @@ CREATE TABLE [Times] (
     [Id] uniqueidentifier NOT NULL,
     [Nome] varchar(200) NOT NULL,
     [Localidade] varchar(255) NOT NULL,
+    [Tecnico] varchar(200) NOT NULL,
+    [Fundacao] datetime2 NOT NULL,
+    [Estadio] varchar(200) NULL,
     [DataCadastro] datetime2 NOT NULL,
     CONSTRAINT [PK_Times] PRIMARY KEY ([Id])
 );
@@ -26,6 +29,8 @@ CREATE TABLE [Jogadores] (
     [Nome] varchar(200) NOT NULL,
     [DataNascimento] datetime NOT NULL,
     [Pais] varchar(200) NOT NULL,
+    [Salario] decimal(10,2) NOT NULL,
+    [Posicao] varchar(200) NOT NULL,
     [DataCadastro] datetime2 NOT NULL,
     CONSTRAINT [PK_Jogadores] PRIMARY KEY ([Id]),
     CONSTRAINT [FK_Jogadores_Times_TimeId] FOREIGN KEY ([TimeId]) REFERENCES [Times] ([Id])
@@ -37,8 +42,8 @@ CREATE TABLE [Transferencias] (
     [TimeOrigemId] uniqueidentifier NOT NULL,
     [TimeDestinoId] uniqueidentifier NOT NULL,
     [JogadorId] uniqueidentifier NOT NULL,
+    [Valor] decimal(10,2) NOT NULL,
     [DataCadastro] datetime2 NOT NULL,
-    [Valor] decimal(10,5) NOT NULL,
     CONSTRAINT [PK_Transferencias] PRIMARY KEY ([Id]),
     CONSTRAINT [FK_Transferencias_Jogadores_JogadorId] FOREIGN KEY ([JogadorId]) REFERENCES [Jogadores] ([Id]),
     CONSTRAINT [FK_Transferencias_Times_TimeOrigemId] FOREIGN KEY ([TimeOrigemId]) REFERENCES [Times] ([Id])
@@ -55,7 +60,7 @@ CREATE INDEX [IX_Transferencias_TimeOrigemId] ON [Transferencias] ([TimeOrigemId
 GO
 
 INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-VALUES (N'20220619224807_Initial', N'6.0.6');
+VALUES (N'20220627225935_Initial', N'6.0.6');
 GO
 
 COMMIT;

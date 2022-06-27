@@ -22,6 +22,14 @@ namespace Cbf.Data.Mappings
                    .IsRequired()
                    .HasColumnType("varchar(200)");
 
+            builder.Property(j => j.Salario)
+                   .IsRequired()
+                   .HasColumnType("decimal(10,2)");
+
+            builder.Property(j => j.Posicao)
+                   .IsRequired()
+                   .HasColumnType("varchar(200)");
+
             builder.HasMany(t => t.Transferencias)
                    .WithOne(t => t.Jogador)
                    .HasForeignKey(t => t.JogadorId);

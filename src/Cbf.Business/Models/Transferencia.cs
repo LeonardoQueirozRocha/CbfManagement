@@ -8,7 +8,7 @@
         public decimal Valor { get; set; }
 
         // EF Relation
-        public Jogador Jogador { get; set; }
         public Time Time { get; set; }
+        public Jogador Jogador { get; set; }
     }
 }

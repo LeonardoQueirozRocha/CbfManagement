@@ -18,6 +18,13 @@ namespace Cbf.Data.Mappings
                    .IsRequired()
                    .HasColumnType("varchar(255)");
 
+            builder.Property(t => t.Tecnico)
+                   .IsRequired()
+                   .HasColumnType("varchar(200)");
+
+            builder.Property(t => t.Estadio)
+                   .HasColumnType("varchar(200)");
+
             builder.HasMany(t => t.Jogadores)
                    .WithOne(t => t.Time)
                    .HasForeignKey(t => t.TimeId);

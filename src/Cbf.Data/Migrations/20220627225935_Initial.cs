@@ -16,6 +16,9 @@ namespace Cbf.Data.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Nome = table.Column<string>(type: "varchar(200)", nullable: false),
                     Localidade = table.Column<string>(type: "varchar(255)", nullable: false),
+                    Tecnico = table.Column<string>(type: "varchar(200)", nullable: false),
+                    Fundacao = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Estadio = table.Column<string>(type: "varchar(200)", nullable: true),
                     DataCadastro = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -32,6 +35,8 @@ namespace Cbf.Data.Migrations
                     Nome = table.Column<string>(type: "varchar(200)", nullable: false),
                     DataNascimento = table.Column<DateTime>(type: "datetime", nullable: false),
                     Pais = table.Column<string>(type: "varchar(200)", nullable: false),
+                    Salario = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
+                    Posicao = table.Column<string>(type: "varchar(200)", nullable: false),
                     DataCadastro = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -52,8 +57,8 @@ namespace Cbf.Data.Migrations
                     TimeOrigemId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     TimeDestinoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     JogadorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    DataCadastro = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Valor = table.Column<decimal>(type: "decimal(10,5)", nullable: false)
+                    Valor = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
+                    DataCadastro = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
