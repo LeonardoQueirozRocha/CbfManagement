@@ -6,5 +6,6 @@ namespace Cbf.Business.Interfaces
     {
         Task<Time> ObterTimeJogadores(Guid id);
         Task<Time> ObterTimeTransferencias(Guid id);
+        Task<IEnumerable<Time>> ObterTimesJogadores();
     }
 }

@@ -28,7 +28,7 @@ namespace Cbf.Api.V1.Controllers
         [HttpGet]
         public async Task<IEnumerable<TimeViewModel>> ObterTodos()
         {
-            return _mapper.Map<IEnumerable<TimeViewModel>>(await _timeRepository.ObterTodos());
+            return _mapper.Map<IEnumerable<TimeViewModel>>(await _timeRepository.ObterTimesJogadores());
         }
 
         [HttpGet("{id:guid}")]

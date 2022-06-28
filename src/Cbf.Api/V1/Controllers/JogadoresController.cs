@@ -68,6 +68,8 @@ namespace Cbf.Api.V1.Controllers
             jogadorAtualizacao.Nome = jogadorViewModel.Nome;
             jogadorAtualizacao.DataNascimento = jogadorViewModel.DataNascimento;
             jogadorAtualizacao.Pais = jogadorViewModel.Pais;
+            jogadorAtualizacao.Salario = jogadorViewModel.Salario;
+            jogadorViewModel.Posicao = jogadorViewModel.Posicao;
 
             await _jogadorService.Atualizar(_mapper.Map<Jogador>(jogadorAtualizacao));
 

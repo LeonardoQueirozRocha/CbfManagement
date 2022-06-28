@@ -23,5 +23,13 @@ namespace Cbf.Data.Repository
                            .Include(t => t.Transferencias)
                            .FirstOrDefaultAsync(t => t.Id == id);
         }
+
+        public async Task<IEnumerable<Time>> ObterTimesJogadores()
+        {
+            return await Db.Times.AsNoTracking()
+                                 .Include(t => t.Jogadores)
+                                 .OrderBy(t => t.Nome)
+                                 .ToListAsync();
+        }
     }
 }

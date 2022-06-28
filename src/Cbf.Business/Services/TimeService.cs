@@ -82,6 +82,14 @@ namespace Cbf.Business.Services
 
         public async Task Remover(Guid id)
         {
+            var jogadores = await _jogadorRepository.ObterJogadoresPorTime(id);
+
+            if (jogadores.Any())
+            {
+                Notificar("Não é possível excluir esse time, pois tem jogadores cadastrados a ele.");
+                return;
+            }
+
             var transferencias = await _transferenciaRepository.ObterTransferenciasPorTimeOrigem(id);
 
             if (transferencias.Any())
