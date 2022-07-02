@@ -7,7 +7,6 @@ namespace Cbf.Business.Interfaces
         Task Adicionar(Time time);
         Task Atualizar(Time time);
         Task Remover(Guid id);
-
-        Task FazerTransferencia(string timeOrigem, string timeDestino, string jogador);
+        Task FazerTransferencia(Transferencia transferencia);
     }
 }

@@ -51,10 +51,14 @@ namespace Cbf.Api.V1.Controllers
             return CustomResponse(timeViewModel);
         }
 
-        [HttpPut("transferancia/{origem}/{destino}/{jogador}")]
-        public async Task Transferencia(string origem, string destino, string jogador)
+        [HttpPost("transferencia")]
+        public async Task<ActionResult<TransferenciaViewModel>> Transferencia(TransferenciaViewModel transferenciaViewModel)
         {
-            await _timeService.FazerTransferencia(origem, destino, jogador);
+            if (!ModelState.IsValid) return CustomResponse(ModelState);
+
+            await _timeService.FazerTransferencia(_mapper.Map<Transferencia>(transferenciaViewModel));
+
+            return CustomResponse(transferenciaViewModel);
         }
 
         [HttpPut("{id:guid}")]

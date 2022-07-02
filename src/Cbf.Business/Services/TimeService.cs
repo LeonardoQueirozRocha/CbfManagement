@@ -44,42 +44,17 @@ namespace Cbf.Business.Services
             await _timeRepository.Atualizar(time);
         }
 
-        public async Task FazerTransferencia(string timeOrigem, string timeDestino, string jogador)
+        public async Task FazerTransferencia(Transferencia transferencia)
         {
-            var origem = await _timeRepository.Buscar(t => t.Nome == timeOrigem);
+            if (!ExecutarValidacao(new TransferenciaValidation(), transferencia)) return;
 
-            if (!origem.Any())
-            {
-                Notificar("Time de origem não encontrado.");
-                return;
-            }
-
-            var destino = await _timeRepository.Buscar(t => t.Nome == timeDestino);
-
-            if (!destino.Any())
-            {
-                Notificar("Time de destino não encontrado.");
-                return;
-            }
-
-            var jogadorBase = await _jogadorRepository.Buscar(j => j.Nome == jogador);
-
-            if (!jogadorBase.Any())
-            {
-                Notificar("Jogador não encontrado.");
-                return;
-            }
-
-            var transferencia = new Transferencia
-            {
-                TimeOrigemId = origem.FirstOrDefault().Id,
-                TimeDestinoId = destino.FirstOrDefault().Id,
-                JogadorId = jogadorBase.FirstOrDefault().Id
-            };
+            if (!await ValidarTransferencia(transferencia)) return;
 
             await _transferenciaRepository.Adicionar(transferencia);
-            jogadorBase.FirstOrDefault().TimeId = destino.FirstOrDefault().Id;
-            await _jogadorRepository.Atualizar(jogadorBase.FirstOrDefault());
+
+            var jogador = await _jogadorRepository.ObterPorId(transferencia.JogadorId);
+            jogador.TimeId = transferencia.TimeDestinoId;
+            await _jogadorRepository.Atualizar(jogador);
         }
 
         public async Task Remover(Guid id)
@@ -106,6 +81,35 @@ namespace Cbf.Business.Services
         {
             _timeRepository.Dispose();
             _transferenciaRepository.Dispose();
+        }
+
+        private async Task<bool> ValidarTransferencia(Transferencia transferencia)
+        {
+            var origem = await _timeRepository.ObterPorId(transferencia.TimeOrigemId);
+
+            if (origem == null)
+            {
+                Notificar("Time de origem não encontrado.");
+                return false;
+            }
+
+            var destino = await _timeRepository.ObterPorId(transferencia.TimeDestinoId);
+
+            if (destino == null)
+            {
+                Notificar("Time de destino não encontrado.");
+                return false;
+            }
+
+            var jogador = await _jogadorRepository.ObterPorId(transferencia.JogadorId);
+
+            if (jogador == null)
+            {
+                Notificar("Jogador não encontrado.");
+                return false;
+            }
+
+            return true;
         }
     }
 }

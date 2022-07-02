@@ -17,6 +17,7 @@ namespace Cbf.Business.Models.Validations
 
             RuleFor(t => t.Valor)
                 .GreaterThan(0).WithMessage("O campo {PropertyName} precisa ser maior que {ComparisonValue}");
+
         }
     }
 }
