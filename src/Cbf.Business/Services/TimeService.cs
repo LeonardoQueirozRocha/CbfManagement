@@ -78,6 +78,8 @@ namespace Cbf.Business.Services
             };
 
             await _transferenciaRepository.Adicionar(transferencia);
+            jogadorBase.FirstOrDefault().TimeId = destino.FirstOrDefault().Id;
+            await _jogadorRepository.Atualizar(jogadorBase.FirstOrDefault());
         }
 
         public async Task Remover(Guid id)

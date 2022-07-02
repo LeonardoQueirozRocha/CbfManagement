@@ -51,6 +51,12 @@ namespace Cbf.Api.V1.Controllers
             return CustomResponse(timeViewModel);
         }
 
+        [HttpPut("transferancia/{origem}/{destino}/{jogador}")]
+        public async Task Transferencia(string origem, string destino, string jogador)
+        {
+            await _timeService.FazerTransferencia(origem, destino, jogador);
+        }
+
         [HttpPut("{id:guid}")]
         public async Task<ActionResult<TimeViewModel>> Atualizar(Guid id, TimeViewModel timeViewModel)
         {
