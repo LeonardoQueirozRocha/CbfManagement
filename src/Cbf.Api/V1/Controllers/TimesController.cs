@@ -4,6 +4,7 @@ using Cbf.Api.ViewModels;
 using Cbf.Business.Interfaces;
 using Cbf.Business.Models;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Cbf.Api.V1.Controllers
 {
@@ -26,12 +27,19 @@ namespace Cbf.Api.V1.Controllers
         }
 
         [HttpGet]
+        [SwaggerResponse(StatusCodes.Status412PreconditionFailed, Type = typeof(IEnumerable<TimeViewModel>))]
+        [SwaggerResponse(StatusCodes.Status404NotFound)]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError)]
+        [SwaggerResponse(StatusCodes.Status200OK)]
         public async Task<IEnumerable<TimeViewModel>> ObterTodos()
         {
             return _mapper.Map<IEnumerable<TimeViewModel>>(await _timeRepository.ObterTimesJogadores());
         }
 
         [HttpGet("{id:guid}")]
+        [SwaggerResponse(StatusCodes.Status404NotFound)]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError)]
+        [SwaggerResponse(StatusCodes.Status200OK)]
         public async Task<ActionResult<TimeViewModel>> ObterPorId(Guid id)
         {
             var time = await ObterTimeJogadores(id);
@@ -42,6 +50,9 @@ namespace Cbf.Api.V1.Controllers
         }
 
         [HttpPost]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError)]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
+        [SwaggerResponse(StatusCodes.Status200OK)]
         public async Task<ActionResult<TimeViewModel>> Adicionar(TimeViewModel timeViewModel)
         {
             if (!ModelState.IsValid) return CustomResponse(ModelState);
@@ -52,6 +63,9 @@ namespace Cbf.Api.V1.Controllers
         }
 
         [HttpPost("transferencia")]
+        [SwaggerResponse(StatusCodes.Status404NotFound)]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError)]
+        [SwaggerResponse(StatusCodes.Status200OK)]
         public async Task<ActionResult<TransferenciaViewModel>> Transferencia(TransferenciaViewModel transferenciaViewModel)
         {
             if (!ModelState.IsValid) return CustomResponse(ModelState);
@@ -62,6 +76,9 @@ namespace Cbf.Api.V1.Controllers
         }
 
         [HttpPut("{id:guid}")]
+        [SwaggerResponse(StatusCodes.Status404NotFound)]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError)]
+        [SwaggerResponse(StatusCodes.Status200OK)]
         public async Task<ActionResult<TimeViewModel>> Atualizar(Guid id, TimeViewModel timeViewModel)
         {
             if (id != timeViewModel.Id)
@@ -78,6 +95,10 @@ namespace Cbf.Api.V1.Controllers
         }
 
         [HttpDelete("{id:guid}")]
+        [SwaggerResponse(StatusCodes.Status404NotFound)]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError)]
+        [SwaggerResponse(StatusCodes.Status200OK)]
         public async Task<ActionResult<TimeViewModel>> Excluir(Guid id)
         {
             var timeViewModel = await ObterTimeJogadores(id);

@@ -4,6 +4,7 @@ using Cbf.Api.ViewModels;
 using Cbf.Business.Interfaces;
 using Cbf.Business.Models;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Cbf.Api.V1.Controllers
 {
@@ -26,12 +27,19 @@ namespace Cbf.Api.V1.Controllers
         }
 
         [HttpGet]
+        [SwaggerResponse(StatusCodes.Status412PreconditionFailed, Type = typeof(IEnumerable<JogadorViewModel>))]
+        [SwaggerResponse(StatusCodes.Status404NotFound)]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError)]
+        [SwaggerResponse(StatusCodes.Status200OK)]
         public async Task<IEnumerable<JogadorViewModel>> ObterTodos()
         {
             return _mapper.Map<IEnumerable<JogadorViewModel>>(await _jogadorRepository.ObterTodos());
         }
 
         [HttpGet("{id:guid}")]
+        [SwaggerResponse(StatusCodes.Status404NotFound)]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError)]
+        [SwaggerResponse(StatusCodes.Status200OK)]
         public async Task<ActionResult<JogadorViewModel>> ObterPorId(Guid id)
         {
             var jogadorViewModel = await ObterJogador(id);
@@ -42,6 +50,9 @@ namespace Cbf.Api.V1.Controllers
         }
 
         [HttpPost]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError)]
+        [SwaggerResponse(StatusCodes.Status200OK)]
         public async Task<ActionResult<JogadorViewModel>> Adicionar(JogadorViewModel jogadorViewModel)
         {
             if (!ModelState.IsValid) return CustomResponse(ModelState);
@@ -52,6 +63,9 @@ namespace Cbf.Api.V1.Controllers
         }
 
         [HttpPut("{id:guid}")]
+        [SwaggerResponse(StatusCodes.Status404NotFound)]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError)]
+        [SwaggerResponse(StatusCodes.Status200OK)]
         public async Task<ActionResult<JogadorViewModel>> Atualizar(Guid id, JogadorViewModel jogadorViewModel)
         {
             if (id != jogadorViewModel.Id)
@@ -77,6 +91,10 @@ namespace Cbf.Api.V1.Controllers
         }
 
         [HttpDelete("{id:guid}")]
+        [SwaggerResponse(StatusCodes.Status404NotFound)]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError)]
+        [SwaggerResponse(StatusCodes.Status200OK)]
         public async Task<ActionResult<JogadorViewModel>> Excluir(Guid id)
         {
             var jogadorViewModel = await ObterJogador(id);
