@@ -62,8 +62,9 @@ namespace Cbf.Api.V1.Controllers
             return CustomResponse(timeViewModel);
         }
 
-        [HttpPost("transferencia")]
+        [HttpPost("transferencias")]
         [SwaggerResponse(StatusCodes.Status404NotFound)]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
         [SwaggerResponse(StatusCodes.Status500InternalServerError)]
         [SwaggerResponse(StatusCodes.Status200OK)]
         public async Task<ActionResult<TransferenciaViewModel>> Transferencia(TransferenciaViewModel transferenciaViewModel)
