@@ -4,6 +4,7 @@ using Cbf.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cbf.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220709195323_Feature-torneios")]
+    partial class Featuretorneios
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,38 +59,6 @@ namespace Cbf.Data.Migrations
                     b.HasIndex("TimeId");
 
                     b.ToTable("Jogadores", (string)null);
-                });
-
-            modelBuilder.Entity("Cbf.Business.Models.Partida", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("DataCadastro")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DataPartida")
-                        .HasColumnType("datetime");
-
-                    b.Property<string>("Resultado")
-                        .IsRequired()
-                        .HasColumnType("varchar(5)");
-
-                    b.Property<Guid>("TimeCasaId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("TimeVisitanteId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("TorneioId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TorneioId");
-
-                    b.ToTable("Partidas", (string)null);
                 });
 
             modelBuilder.Entity("Cbf.Business.Models.Time", b =>
@@ -196,16 +166,6 @@ namespace Cbf.Data.Migrations
                     b.Navigation("Time");
                 });
 
-            modelBuilder.Entity("Cbf.Business.Models.Partida", b =>
-                {
-                    b.HasOne("Cbf.Business.Models.Torneio", "Torneio")
-                        .WithMany("Partidas")
-                        .HasForeignKey("TorneioId")
-                        .IsRequired();
-
-                    b.Navigation("Torneio");
-                });
-
             modelBuilder.Entity("Cbf.Business.Models.Transferencia", b =>
                 {
                     b.HasOne("Cbf.Business.Models.Jogador", "Jogador")
@@ -246,11 +206,6 @@ namespace Cbf.Data.Migrations
                     b.Navigation("Jogadores");
 
                     b.Navigation("Transferencias");
-                });
-
-            modelBuilder.Entity("Cbf.Business.Models.Torneio", b =>
-                {
-                    b.Navigation("Partidas");
                 });
 #pragma warning restore 612, 618
         }
