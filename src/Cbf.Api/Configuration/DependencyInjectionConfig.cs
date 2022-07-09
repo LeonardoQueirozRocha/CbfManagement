@@ -1,4 +1,6 @@
 ﻿using Cbf.Business.Interfaces;
+using Cbf.Business.Interfaces.Repositories;
+using Cbf.Business.Interfaces.Services;
 using Cbf.Business.Notificacoes;
 using Cbf.Business.Services;
 using Cbf.Data.Context;

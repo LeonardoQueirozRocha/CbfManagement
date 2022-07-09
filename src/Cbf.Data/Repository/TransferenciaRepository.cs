@@ -1,4 +1,4 @@
-﻿using Cbf.Business.Interfaces;
+﻿using Cbf.Business.Interfaces.Repositories;
 using Cbf.Business.Models;
 using Cbf.Data.Context;
 
