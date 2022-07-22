@@ -11,5 +11,6 @@
         // EF Relation
         public IEnumerable<Jogador> Jogadores { get; set; }
         public IEnumerable<Transferencia> Transferencias { get; set; }
+        public ICollection<Torneio> Torneios { get; set; }
     }
 }

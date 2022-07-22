@@ -1,4 +1,6 @@
 ﻿using Cbf.Business.Interfaces;
+using Cbf.Business.Interfaces.Repositories;
+using Cbf.Business.Interfaces.Services;
 using Cbf.Business.Models;
 using Cbf.Business.Models.Validations;
 

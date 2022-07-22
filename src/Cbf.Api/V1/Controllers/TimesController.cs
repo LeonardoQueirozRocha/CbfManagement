@@ -2,6 +2,8 @@
 using Cbf.Api.Controllers;
 using Cbf.Api.ViewModels;
 using Cbf.Business.Interfaces;
+using Cbf.Business.Interfaces.Repositories;
+using Cbf.Business.Interfaces.Services;
 using Cbf.Business.Models;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -90,7 +92,7 @@ namespace Cbf.Api.V1.Controllers
 
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 
-            await _timeRepository.Atualizar(_mapper.Map<Time>(timeViewModel));
+            await _timeService.Atualizar(_mapper.Map<Time>(timeViewModel));
 
             return CustomResponse(timeViewModel);
         }

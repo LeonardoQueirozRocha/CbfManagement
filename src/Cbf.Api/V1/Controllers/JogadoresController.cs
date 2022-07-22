@@ -2,6 +2,8 @@
 using Cbf.Api.Controllers;
 using Cbf.Api.ViewModels;
 using Cbf.Business.Interfaces;
+using Cbf.Business.Interfaces.Repositories;
+using Cbf.Business.Interfaces.Services;
 using Cbf.Business.Models;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;

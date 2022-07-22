@@ -1,7 +1,7 @@
 ﻿using Cbf.Business.Models;
 using System.Linq.Expressions;
 
-namespace Cbf.Business.Interfaces
+namespace Cbf.Business.Interfaces.Repositories
 {
     public interface IRepository<TEntity> : IDisposable where TEntity : Entity
     {

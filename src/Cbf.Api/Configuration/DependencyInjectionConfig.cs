@@ -1,4 +1,6 @@
 ﻿using Cbf.Business.Interfaces;
+using Cbf.Business.Interfaces.Repositories;
+using Cbf.Business.Interfaces.Services;
 using Cbf.Business.Notificacoes;
 using Cbf.Business.Services;
 using Cbf.Data.Context;
@@ -16,10 +18,12 @@ namespace Cbf.Api.Configuration
             services.AddScoped<ITimeRepository, TimeRepository>();
             services.AddScoped<IJogadorRepository, JogadorRepository>();
             services.AddScoped<ITransferenciaRepository, TransferenciaRepository>();
+            services.AddScoped<ITorneioRepository, TorneioRepository>();
 
             services.AddScoped<INotificador, Notificador>();
             services.AddScoped<ITimeService, TimeService>();
             services.AddScoped<IJogadorService, JogadorService>();
+            services.AddScoped<ITorneioService, TorneioService>();
 
             services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
 

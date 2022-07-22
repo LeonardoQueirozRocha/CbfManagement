@@ -1,6 +1,6 @@
 ﻿using Cbf.Business.Models;
 
-namespace Cbf.Business.Interfaces
+namespace Cbf.Business.Interfaces.Services
 {
     public interface ITimeService : IDisposable
     {
