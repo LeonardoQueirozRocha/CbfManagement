@@ -60,6 +60,17 @@ namespace Cbf.Api.V1.Controllers
             return CustomResponse(torneioViewModel);
         }
 
+        [HttpPost("{torneioId:guid}/{timeId:guid}")]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError)]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
+        [SwaggerResponse(StatusCodes.Status200OK)]
+        public async Task<ActionResult<TorneioViewModel>> AdicionarTime(Guid torneioId, Guid timeId)
+        {
+            await _torneioService.AdicionarTime(torneioId, timeId);
+
+            return CustomResponse();
+        }
+
         [HttpPut("{id:guid}")]
         [SwaggerResponse(StatusCodes.Status404NotFound)]
         [SwaggerResponse(StatusCodes.Status500InternalServerError)]
