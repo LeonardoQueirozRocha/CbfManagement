@@ -18,10 +18,12 @@ namespace Cbf.Api.Configuration
             services.AddScoped<ITimeRepository, TimeRepository>();
             services.AddScoped<IJogadorRepository, JogadorRepository>();
             services.AddScoped<ITransferenciaRepository, TransferenciaRepository>();
+            services.AddScoped<ITorneioRepository, TorneioRepository>();
 
             services.AddScoped<INotificador, Notificador>();
             services.AddScoped<ITimeService, TimeService>();
             services.AddScoped<IJogadorService, JogadorService>();
+            services.AddScoped<ITorneioService, TorneioService>();
 
             services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
 

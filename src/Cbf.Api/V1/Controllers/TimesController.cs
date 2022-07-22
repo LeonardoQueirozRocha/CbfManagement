@@ -92,7 +92,7 @@ namespace Cbf.Api.V1.Controllers
 
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 
-            await _timeRepository.Atualizar(_mapper.Map<Time>(timeViewModel));
+            await _timeService.Atualizar(_mapper.Map<Time>(timeViewModel));
 
             return CustomResponse(timeViewModel);
         }

@@ -11,6 +11,7 @@ namespace Cbf.Api.Configuration
             CreateMap<Time, TimeViewModel>().ReverseMap();
             CreateMap<Jogador, JogadorViewModel>().ReverseMap();
             CreateMap<Transferencia, TransferenciaViewModel>().ReverseMap();
+            CreateMap<Torneio, TorneioViewModel>().ReverseMap();
         }
     }
 }
