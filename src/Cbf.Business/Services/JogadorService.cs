@@ -16,6 +16,16 @@ namespace Cbf.Business.Services
             _jogadorRepository = jogadorRepository;
         }
 
+        public async Task<IEnumerable<Jogador>> ObterTodos()
+        {
+            return await _jogadorRepository.ObterTodos();
+        }
+
+        public async Task<Jogador> ObterPorId(Guid id)
+        {
+            return await _jogadorRepository.ObterJogadorTime(id);
+        }
+
         public async Task Adicionar(Jogador jogador)
         {
             if (!ExecutarValidacao(new JogadorValidation(), jogador)) return;

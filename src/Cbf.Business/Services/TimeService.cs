@@ -22,6 +22,16 @@ namespace Cbf.Business.Services
             _jogadorRepository = jogadorRepository;
         }
 
+        public async Task<IEnumerable<Time>> ObterTodos()
+        {
+            return await _timeRepository.ObterTimesJogadores();
+        }
+
+        public async Task<Time> ObterPorId(Guid id)
+        {
+            return await _timeRepository.ObterTimeJogadores(id);
+        }
+
         public async Task Adicionar(Time time)
         {
             if (!ExecutarValidacao(new TimeValidation(), time)) return;
@@ -81,18 +91,20 @@ namespace Cbf.Business.Services
 
         public void Dispose()
         {
-            _timeRepository.Dispose();
-            _transferenciaRepository.Dispose();
+            _timeRepository?.Dispose();
+            _jogadorRepository?.Dispose();
+            _transferenciaRepository?.Dispose();
         }
 
         private async Task<bool> ValidarTransferencia(Transferencia transferencia)
         {
-            var origem = await _timeRepository.ObterPorId(transferencia.TimeOrigemId);
+            var isValid = true;
 
+            var origem = await _timeRepository.ObterPorId(transferencia.TimeOrigemId);
             if (origem == null)
             {
                 Notificar("Time de origem não encontrado.");
-                return false;
+                isValid = false;
             }
 
             var destino = await _timeRepository.ObterPorId(transferencia.TimeDestinoId);
@@ -100,7 +112,7 @@ namespace Cbf.Business.Services
             if (destino == null)
             {
                 Notificar("Time de destino não encontrado.");
-                return false;
+                isValid = false;
             }
 
             var jogador = await _jogadorRepository.ObterPorId(transferencia.JogadorId);
@@ -108,10 +120,10 @@ namespace Cbf.Business.Services
             if (jogador == null)
             {
                 Notificar("Jogador não encontrado.");
-                return false;
+                isValid = false;
             }
 
-            return true;
+            return isValid;
         }
     }
 }

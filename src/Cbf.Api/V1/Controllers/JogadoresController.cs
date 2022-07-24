@@ -14,16 +14,13 @@ namespace Cbf.Api.V1.Controllers
     [Route("api/v{version:apiVersion}/jogadores")]
     public class JogadoresController : MainController
     {
-        private readonly IJogadorRepository _jogadorRepository;
         private readonly IJogadorService _jogadorService;
         private readonly IMapper _mapper;
 
         public JogadoresController(INotificador notificador,
                                    IJogadorService jogadorService,
-                                   IJogadorRepository jogadorRepository,
                                    IMapper mapper) : base(notificador)
         {
-            _jogadorRepository = jogadorRepository;
             _jogadorService = jogadorService;
             _mapper = mapper;
         }
@@ -35,7 +32,7 @@ namespace Cbf.Api.V1.Controllers
         [SwaggerResponse(StatusCodes.Status200OK)]
         public async Task<IEnumerable<JogadorViewModel>> ObterTodos()
         {
-            return _mapper.Map<IEnumerable<JogadorViewModel>>(await _jogadorRepository.ObterTodos());
+            return _mapper.Map<IEnumerable<JogadorViewModel>>(await _jogadorService.ObterTodos());
         }
 
         [HttpGet("{id:guid}")]
@@ -44,7 +41,7 @@ namespace Cbf.Api.V1.Controllers
         [SwaggerResponse(StatusCodes.Status200OK)]
         public async Task<ActionResult<JogadorViewModel>> ObterPorId(Guid id)
         {
-            var jogadorViewModel = await ObterJogador(id);
+            var jogadorViewModel = _mapper.Map<JogadorViewModel>(await _jogadorService.ObterPorId(id));
 
             if (jogadorViewModel == null) return NotFound();
 
@@ -76,7 +73,7 @@ namespace Cbf.Api.V1.Controllers
                 return CustomResponse(jogadorViewModel);
             }
 
-            var jogadorAtualizacao = await ObterJogador(id);
+            var jogadorAtualizacao = _mapper.Map<JogadorViewModel>(await _jogadorService.ObterPorId(id));
 
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 
@@ -99,18 +96,13 @@ namespace Cbf.Api.V1.Controllers
         [SwaggerResponse(StatusCodes.Status200OK)]
         public async Task<ActionResult<JogadorViewModel>> Excluir(Guid id)
         {
-            var jogadorViewModel = await ObterJogador(id);
+            var jogadorViewModel = _mapper.Map<JogadorViewModel>(await _jogadorService.ObterPorId(id));
 
             if (jogadorViewModel == null) return NotFound();
 
             await _jogadorService.Remover(id);
 
             return CustomResponse(jogadorViewModel);
-        }
-
-        private async Task<JogadorViewModel> ObterJogador(Guid id)
-        {
-            return _mapper.Map<JogadorViewModel>(await _jogadorRepository.ObterJogadorTime(id));
         }
     }
 }

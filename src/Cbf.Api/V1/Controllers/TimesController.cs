@@ -15,16 +15,13 @@ namespace Cbf.Api.V1.Controllers
     public class TimesController : MainController
     {
         private readonly ITimeService _timeService;
-        private readonly ITimeRepository _timeRepository;
         private readonly IMapper _mapper;
 
         public TimesController(ITimeService timeService,
-                               ITimeRepository timeRepository,
                                IMapper mapper,
                                INotificador notificador) : base(notificador)
         {
-            _timeService = timeService;
-            _timeRepository = timeRepository;
+            _timeService = timeService;            
             _mapper = mapper;
         }
 
@@ -35,7 +32,7 @@ namespace Cbf.Api.V1.Controllers
         [SwaggerResponse(StatusCodes.Status200OK)]
         public async Task<IEnumerable<TimeViewModel>> ObterTodos()
         {
-            return _mapper.Map<IEnumerable<TimeViewModel>>(await _timeRepository.ObterTimesJogadores());
+            return _mapper.Map<IEnumerable<TimeViewModel>>(await _timeService.ObterTodos());
         }
 
         [HttpGet("{id:guid}")]
@@ -44,7 +41,7 @@ namespace Cbf.Api.V1.Controllers
         [SwaggerResponse(StatusCodes.Status200OK)]
         public async Task<ActionResult<TimeViewModel>> ObterPorId(Guid id)
         {
-            var time = await ObterTimeJogadores(id);
+            var time = _mapper.Map<TimeViewModel>(await _timeService.ObterPorId(id));
 
             if (time == null) return NotFound();
 
@@ -104,18 +101,13 @@ namespace Cbf.Api.V1.Controllers
         [SwaggerResponse(StatusCodes.Status200OK)]
         public async Task<ActionResult<TimeViewModel>> Excluir(Guid id)
         {
-            var timeViewModel = await ObterTimeJogadores(id);
+            var timeViewModel = _mapper.Map<TimeViewModel>(await _timeService.ObterPorId(id));
 
             if (timeViewModel == null) return NotFound();
 
             await _timeService.Remover(id);
 
             return CustomResponse(timeViewModel);
-        }
-
-        private async Task<TimeViewModel> ObterTimeJogadores(Guid id)
-        {
-            return _mapper.Map<TimeViewModel>(await _timeRepository.ObterTimeJogadores(id));
         }
     }
 }
