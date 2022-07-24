@@ -30,8 +30,14 @@ namespace Cbf.Business.Services
             await _jogadorRepository.Atualizar(jogador);
         }
 
-        public async Task Remover(Guid id) => await _jogadorRepository.Remover(id);
+        public async Task Remover(Guid id)
+        {
+            await _jogadorRepository.Remover(id);
+        }
 
-        public void Dispose() => _jogadorRepository?.Dispose();
+        public void Dispose()
+        {
+            _jogadorRepository?.Dispose();
+        }
     }
 }

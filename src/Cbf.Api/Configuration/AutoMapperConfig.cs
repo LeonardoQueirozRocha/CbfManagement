@@ -12,6 +12,7 @@ namespace Cbf.Api.Configuration
             CreateMap<Jogador, JogadorViewModel>().ReverseMap();
             CreateMap<Transferencia, TransferenciaViewModel>().ReverseMap();
             CreateMap<Torneio, TorneioViewModel>().ReverseMap();
+            CreateMap<Partida, PartidaViewModel>().ReverseMap();
         }
     }
 }
