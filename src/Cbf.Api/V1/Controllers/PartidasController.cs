@@ -29,18 +29,18 @@ namespace Cbf.Api.V1.Controllers
         [SwaggerResponse(StatusCodes.Status404NotFound)]
         [SwaggerResponse(StatusCodes.Status500InternalServerError)]
         [SwaggerResponse(StatusCodes.Status200OK)]
-        public async Task<IEnumerable<PartidaViewModel>> ObterTodos()
+        public async Task<IEnumerable<PartidaViewModel>> ObterPartidasTorneios()
         {
-            return _mapper.Map<IEnumerable<PartidaViewModel>>(await _partidaService.ObterTodos());
+            return _mapper.Map<IEnumerable<PartidaViewModel>>(await _partidaService.ObterPartidasTorneios());
         }
 
         [HttpGet("{id:guid}")]
         [SwaggerResponse(StatusCodes.Status404NotFound)]
         [SwaggerResponse(StatusCodes.Status500InternalServerError)]
         [SwaggerResponse(StatusCodes.Status200OK)]
-        public async Task<ActionResult<PartidaViewModel>> ObterPorId(Guid id)
+        public async Task<ActionResult<PartidaViewModel>> ObterPartidaTorneio(Guid id)
         {
-            var partida = _mapper.Map<PartidaViewModel>(await _partidaService.ObterPorId(id));
+            var partida = _mapper.Map<PartidaViewModel>(await _partidaService.ObterPartidaTorneio(id));
 
             if (partida == null) return NotFound();
 
